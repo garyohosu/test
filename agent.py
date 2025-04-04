@@ -1,15 +1,18 @@
-import agent from Agent,Runner
-import asyncio
+from agents import Agent, Runner
+import sys
+import io
 
-agent=Agent(
+# Windows環境での文字化けを防ぐためにUTF-8出力を設定
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
+agent = Agent(
     name="Assistant",
+    instructions="You are a helpful assistant"
 )
 
-runner=Runner(agent)
+result = Runner.run_sync(agent, "Write a haiku about recursion in programming.")
+print(result.final_output)
 
-async def main():
-    result=await runner.run(agent,"hello")
-    print(result.final_output)
-
-if __name__=="__main__":
-    asyncio.run(main())
+# Code within the code,
+# Functions calling themselves,
+# Infinite loop's dance.
